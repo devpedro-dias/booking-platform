@@ -17,4 +17,5 @@ public class tb_service
     public virtual tb_business business { get; set; }
 
     public ICollection<tb_service_provider_services> ServiceProviderServices { get; set; }
+    public virtual ICollection<tb_appointments> Appointments { get; set; } = new List<tb_appointments>();
 }
