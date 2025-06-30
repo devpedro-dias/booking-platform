@@ -8,11 +8,6 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-
-        builder.Property(u => u.Name)
-            .IsRequired()
-            .HasColumnType("varchar(150)");
-
         builder.HasOne(u => u.service_provider_profile)
             .WithOne(sp => sp.user)
             .HasForeignKey<tb_service_provider>(sp => sp.user_id)

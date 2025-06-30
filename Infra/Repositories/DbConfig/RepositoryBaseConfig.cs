@@ -3,7 +3,7 @@
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecommerce.Infra.Repository.DbConfig;
+namespace Infra.Repository.DbConfig;
 
 public class RepositoryBaseConfig<T> : IRepositoryBaseConfig<T> where T : class
 {
@@ -11,7 +11,7 @@ public class RepositoryBaseConfig<T> : IRepositoryBaseConfig<T> where T : class
 
     public RepositoryBaseConfig(AppDbContext context)
     {
-        db = context ?? throw new ArgumentNullException(nameof(context)); 
+        db = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public T Add(T genericTable)

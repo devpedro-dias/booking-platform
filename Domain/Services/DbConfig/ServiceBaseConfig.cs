@@ -1,5 +1,5 @@
 ﻿using Domain.Interfaces.Repositories.BaseConfig;
-using ecommerce.Domain.Interfaces.Services.DbConfig;
+using Domain.Interfaces.Services.DbConfig;
 
 namespace ecommerce.Domain.Services.DbConfig
 {

@@ -12,6 +12,9 @@ public class tb_business
     public string name { get; set; }
     public string address { get; set; }
     public string phone_number { get; set; }
+    public string owner_user_id { get; set; }
+    
+    public virtual ApplicationUser owner_user { get; set; }
 
     public ICollection<tb_service_provider> ServiceProviders { get; set; }
     public ICollection<tb_service> Services { get; set; }

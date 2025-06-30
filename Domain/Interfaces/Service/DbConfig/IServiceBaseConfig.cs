@@ -1,4 +1,4 @@
-﻿namespace ecommerce.Domain.Interfaces.Services.DbConfig
+﻿namespace Domain.Interfaces.Services.DbConfig
 {
     public interface IServiceBaseConfig<T> where T : class
     {

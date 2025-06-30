@@ -23,7 +23,13 @@ public class BusinessConfig : IEntityTypeConfiguration<tb_business>
             .IsRequired()
             .HasColumnType("varchar(20)");
 
-        // Relacionamentos 1:N
+        builder.HasOne(b => b.owner_user)
+           .WithMany()
+           .HasForeignKey(b => b.owner_user_id)
+           .OnDelete(DeleteBehavior.Restrict)
+
+           .IsRequired();
+
         builder.HasMany(b => b.Services)
             .WithOne(s => s.business)
             .HasForeignKey(s => s.business_id)
