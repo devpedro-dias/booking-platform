@@ -1,7 +1,7 @@
 ﻿using Domain.Interfaces.Repositories.BaseConfig;
 using Domain.Interfaces.Services.DbConfig;
 
-namespace ecommerce.Domain.Services.DbConfig
+namespace Domain.Services.DbConfig
 {
     public class ServiceBaseConfig<T> : IServiceBaseConfig<T> where T : class
     {

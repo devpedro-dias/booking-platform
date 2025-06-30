@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Service;
-using ecommerce.Domain.Services.DbConfig;
+using Domain.Services.DbConfig;
 
 namespace Domain.Services;
 

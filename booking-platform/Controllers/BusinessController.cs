@@ -43,7 +43,7 @@ public class BusinessController : ControllerBase
                 PhoneNumber = b.phone_number,
                 OwnerUserId = b.owner_user_id,
                 Services = (b.Services ?? new List<tb_service>())
-                           .Select(s => new ServiceDTO
+                           .Select(s => new ServiceResponseDTO
                            {
                     Id = s.id.ToString(),
                     Name = s.name,
@@ -98,7 +98,7 @@ public class BusinessController : ControllerBase
             PhoneNumber = business.phone_number,
             OwnerUserId = business.owner_user_id,
             Services = (business.Services ?? new List<tb_service>())
-                       .Select(s => new ServiceDTO
+                       .Select(s => new ServiceResponseDTO
                        {
                            Id = s.id.ToString(),
                            Name = s.name,
@@ -157,7 +157,7 @@ public class BusinessController : ControllerBase
                 Address = createdBusiness.address,
                 PhoneNumber = createdBusiness.phone_number,
                 OwnerUserId = createdBusiness.owner_user_id,
-                Services = new List<ServiceDTO>(),
+                Services = new List<ServiceResponseDTO>(),
                 ServiceProviders = new List<ServiceProviderDTO>()
             };
 

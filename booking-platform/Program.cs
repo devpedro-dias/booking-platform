@@ -4,7 +4,7 @@ using Domain.Interfaces.Repositories.BaseConfig;
 using Domain.Interfaces.Service;
 using Domain.Interfaces.Services.DbConfig;
 using Domain.Services;
-using ecommerce.Domain.Services.DbConfig;
+using Domain.Services.DbConfig;
 using Infra.Context;
 using Infra.Repositories;
 using Infra.Repository.DbConfig;
@@ -38,6 +38,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped(typeof(IRepositoryBaseConfig<>), typeof(RepositoryBaseConfig<>));
 builder.Services.AddScoped(typeof(IServiceBaseConfig<>), typeof(ServiceBaseConfig<>));
 
