@@ -52,7 +52,7 @@ public class BusinessController : ControllerBase
                     PriceInCents = s.price_in_cents
                 }).ToList(),
                 ServiceProviders = (b.ServiceProviders ?? new List<tb_service_provider>())
-                                   .Select(sp => new ServiceProviderDTO
+                                   .Select(sp => new ServiceProviderResponseDTO
                                    {
                                        Id = sp.id.ToString(),
                                        Name = sp.name,
@@ -107,7 +107,7 @@ public class BusinessController : ControllerBase
                            PriceInCents = s.price_in_cents
                        }).ToList(),
             ServiceProviders = (business.ServiceProviders ?? new List<tb_service_provider>())
-                               .Select(sp => new ServiceProviderDTO
+                               .Select(sp => new ServiceProviderResponseDTO
                                {
                                    Id = sp.id.ToString(),
                                    Name = sp.name,
@@ -158,7 +158,7 @@ public class BusinessController : ControllerBase
                 PhoneNumber = createdBusiness.phone_number,
                 OwnerUserId = createdBusiness.owner_user_id,
                 Services = new List<ServiceResponseDTO>(),
-                ServiceProviders = new List<ServiceProviderDTO>()
+                ServiceProviders = new List<ServiceProviderResponseDTO>()
             };
 
             return CreatedAtAction(nameof(GetById), new { id = createdBusiness.id }, responseDto);

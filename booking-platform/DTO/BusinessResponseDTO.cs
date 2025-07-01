@@ -8,5 +8,5 @@ public class BusinessResponseDTO
     public string PhoneNumber { get; set; }
     public string OwnerUserId { get; set; }
     public ICollection<ServiceResponseDTO> Services { get; set; }
-    public ICollection<ServiceProviderDTO> ServiceProviders { get; set; }
+    public ICollection<ServiceProviderResponseDTO> ServiceProviders { get; set; }
 }

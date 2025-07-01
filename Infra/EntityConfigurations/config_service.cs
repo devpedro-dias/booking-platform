@@ -23,7 +23,7 @@ public class ServiceConfig : IEntityTypeConfiguration<tb_service>
             .IsRequired();
 
         builder.Property(s => s.price_in_cents)
-            .HasColumnType("decimal(10,2)")
+            .HasColumnType("decimal(38,2)")
             .IsRequired();
 
         // Relacionamento 1:N com tb_business (já configurado no BusinessConfig)

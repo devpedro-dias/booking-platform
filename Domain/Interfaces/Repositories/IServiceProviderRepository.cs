@@ -10,4 +10,6 @@ namespace Domain.Interfaces.Repositories;
 
 public interface IServiceProviderRepository : IRepositoryBaseConfig<tb_service_provider>
 {
+    Task<tb_service_provider> GetByIdAsync(Guid id);
+    Task<List<tb_service_provider>> GetAllServiceProvidersByBusinessIdAsync(Guid businessId);
 }
