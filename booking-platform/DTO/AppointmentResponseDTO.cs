@@ -1,6 +1,6 @@
 ﻿namespace booking_platform.DTO;
 
-public class AppointmentDTO
+public class AppointmentResponseDTO
 {
     public string Id { get; set; }
     public string BusinessId { get; set; }

@@ -40,6 +40,8 @@ builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped(typeof(IRepositoryBaseConfig<>), typeof(RepositoryBaseConfig<>));
 builder.Services.AddScoped(typeof(IServiceBaseConfig<>), typeof(ServiceBaseConfig<>));
 

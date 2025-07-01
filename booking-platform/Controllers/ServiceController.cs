@@ -132,6 +132,7 @@ public class ServiceController : ControllerBase
             return StatusCode(500, new { success = false, message = "An error occurred while creating the service.", error = ex.Message });
         }
     }
+
     [HttpPut("{id}")]
     public async Task<ActionResult> Update(Guid id, [FromBody] ServiceRequestDTO serviceDto)
     {
