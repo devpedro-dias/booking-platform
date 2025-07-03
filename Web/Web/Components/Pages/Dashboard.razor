@@ -1,0 +1,75 @@
+﻿@page "/dashboard"
+
+@rendermode InteractiveAuto
+
+<RadzenText TextStyle="TextStyle.H6">
+    Dashboard
+</RadzenText>
+<RadzenRow JustifyContent="JustifyContent.Center">
+    <RadzenColumn Size="12" SizeMD="4" Class="rz-p-2">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="event" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Appointments" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="1.234" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <RadzenColumn Size="12" SizeMD="4" Class="rz-p-2">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="business" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Businesses" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="567" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <RadzenColumn Size="12" SizeMD="4" Class="rz-p-2">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="people" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Service Providers" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="89" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center">
+    <RadzenColumn Size="12" Class="rz-p-2">
+        <ChartDashboard />
+    </RadzenColumn>
+</RadzenRow>
+
+@code {
+    class AppointmentData
+    {
+        public string Month { get; set; }
+        public int Count { get; set; }
+    }
+
+    List<AppointmentData> appointmentsData = new List<AppointmentData>
+    {
+        new AppointmentData { Month = "Jan", Count = 150 },
+        new AppointmentData { Month = "Fev", Count = 200 },
+        new AppointmentData { Month = "Mar", Count = 180 },
+        new AppointmentData { Month = "Abr", Count = 250 },
+        new AppointmentData { Month = "Mai", Count = 220 },
+        new AppointmentData { Month = "Jun", Count = 300 },
+        new AppointmentData { Month = "Jul", Count = 280 }
+    };
+}
