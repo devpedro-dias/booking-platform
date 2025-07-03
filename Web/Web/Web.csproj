@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\booking-platform\API.csproj" />
     <ProjectReference Include="..\Web.Client\Web.Client.csproj" />
   </ItemGroup>
 
