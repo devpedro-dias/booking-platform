@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Pages\Home.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
     <PackageReference Include="Radzen.Blazor" Version="7.1.3" />
   </ItemGroup>
@@ -14,6 +25,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\booking-platform\API.csproj" />
     <ProjectReference Include="..\Web.Client\Web.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Services\" />
   </ItemGroup>
 
 </Project>

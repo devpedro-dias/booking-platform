@@ -1,0 +1,146 @@
+﻿@* @page "/"
+@page "/login"
+
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@layout EmptyLayout
+@attribute [AllowAnonymous]
+
+
+
+<div class="login-container">
+    <RadzenTemplateForm TItem="LoginModel" Data="@loginModel" Submit="@OnLoginSubmit" class="login-form">
+        <div class="rz-shadow-1 rz-text-center rz-p-12">
+            <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" Gap="1rem">
+                <RadzenText Text="Acesse sua conta" TextStyle="Radzen.Blazor.TextStyle.H5" class="mb-3" />
+                <RadzenFormField Text="Email" Variant="Variant.Outlined" Style="width: 100%;">
+                    <RadzenTextBox @bind-Value="@loginModel.Username" Name="Email" />
+                    <RadzenRequiredValidator Component="Email" Text="Email é obrigatório" Popup="true" />
+                    <RadzenEmailValidator Component="Email" Text="Formato de email inválido" Popup="true" />
+                </RadzenFormField>
+                <RadzenFormField Text="Senha" Variant="Variant.Outlined" Style="width: 100%;">
+                    <RadzenTextBox @bind-Value="@loginModel.Password" Type="Password" Name="Password" />
+                    <RadzenRequiredValidator Component="Password" Text="Senha é obrigatória" Popup="true" />
+                </RadzenFormField>
+                <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Text="@(_processing ? "Processando..." : "Entrar")"
+                                             ButtonStyle="ButtonStyle.Primary" IsBusy="@_processing" BusyText="Processando..." Style="width: 100%;" />
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="0.5rem">
+                    <RadzenText Text="Don't have an account?" TextStyle="TextStyle.Body2" />
+                    <RadzenLink Text="Sign Up" Path="/register" />
+                </RadzenStack>
+            </RadzenStack>
+        </div>
+
+    </RadzenTemplateForm>
+
+</div>
+
+
+
+@code {
+    async Task OnLoginSubmit(LoginModel model)
+    {
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = "Por favor, preencha o email e a senha." });
+
+            return;
+
+        }
+
+        _processing = true;
+
+        try
+        {
+            var result = await _authService.LoginAsync(model.Username, model.Password);
+
+            if (result.Sucesso)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Sucesso", Detail = "Login realizado com sucesso!" });
+                StateHasChanged();
+
+                NavigationManager.NavigateTo("/dashboard");
+
+            }
+
+            else
+            {
+
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Falha no Login", Detail = string.Join(", ", result.Erros ?? new[] { "Erro desconhecido." }) });
+
+            }
+        }
+
+        catch (Exception ex)
+        {
+
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = $"Ocorreu um erro: {ex.Message}" });
+
+            Console.Error.WriteLine($"Erro no Login: {ex}");
+
+        }
+
+        finally
+        {
+            _processing = false;
+
+            StateHasChanged();
+        }
+
+    }
+
+
+
+    public async Task PerformRegistration(string email, string password)
+    {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = "Por favor, preencha o email e a senha para registro." });
+
+            return;
+
+        }
+        _processing = true;
+
+        try
+        {
+            var result = await _authService.RegisterAsync(email, password);
+
+            if (result.Sucesso)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Sucesso", Detail = "Registro realizado com sucesso! Agora você pode fazer login." });
+
+                await OnLoginSubmit(new LoginModel { Username = email, Password = password });
+
+            }
+
+            else
+            {
+
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Falha no Registro", Detail = string.Join(", ", result.Erros ?? new[] { "Erro desconhecido no registro." }) });
+
+            }
+        }
+
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = $"Ocorreu um erro no registro: {ex.Message}" });
+
+            Console.Error.WriteLine($"Erro no Registro: {ex}");
+        }
+
+        finally
+        {
+            _processing = false;
+
+            StateHasChanged();
+
+        }
+
+    }
+
+} *@

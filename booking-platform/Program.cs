@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-//.UseLazyLoadingProxies()
+    // .UseLazyLoadingProxies()
 );
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
@@ -51,7 +51,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontendDev", policy =>
     {
-        policy.WithOrigins("https://localhost:7096")
+        policy.WithOrigins("https://localhost:7269")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

@@ -58,3 +58,36 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
+.login-form .rz-stack-vertical {
+    width: 100%;
+}

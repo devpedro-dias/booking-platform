@@ -1,0 +1,11 @@
+﻿.main-content-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--rz-base-background-color);
+}
+
+.radzen-card {
+    box-shadow: var(--rz-shadow-3);
+}
