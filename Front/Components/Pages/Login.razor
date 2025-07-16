@@ -1,0 +1,65 @@
+@page "/login"
+@rendermode InteractiveServer
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+@attribute [AllowAnonymous]
+<div class="login-container" style="max-width:400px;margin:auto;margin-top:5rem;">
+    <RadzenTemplateForm TItem="AuthDTO" Data="@authDto" Submit="@OnLoginSubmit" class="login-form">
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" Gap="1rem">
+                <RadzenText Text="Acesse sua conta" TextStyle="Radzen.Blazor.TextStyle.H5" class="mb-3" />
+                <RadzenFormField Text="Email" Variant="Variant.Outlined" Style="width: 100%;">
+                    <RadzenTextBox @bind-Value="authDto.Email" Name="Email" />
+                    <RadzenRequiredValidator Component="Email" Text="Email é obrigatório" Popup="true" />
+                </RadzenFormField>
+                <RadzenFormField Text="Senha" Variant="Variant.Outlined" Style="width: 100%;">
+                    <RadzenTextBox @bind-Value="authDto.Password" Type="Password" Name="Password" />
+                    <RadzenRequiredValidator Component="Password" Text="Senha é obrigatória" Popup="true" />
+                </RadzenFormField>
+                <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Text="@(_processing ? "Processando..." : "Entrar")"
+                              ButtonStyle="ButtonStyle.Primary" IsBusy="@_processing" BusyText="Processando..." Style="width: 100%;" />
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenTemplateForm>
+</div>
+
+@code {
+    private AuthDTO authDto = new();
+    private bool _processing = false;
+
+    private async Task OnLoginSubmit(AuthDTO model)
+    {
+        Console.WriteLine("submit");
+        if (string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.Password))
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = "Por favor, preencha o email e a senha." });
+            return;
+        }
+        _processing = true;
+        StateHasChanged();
+        try
+        {
+            var result = await AuthService.LoginAsync(model);
+            if (result.Sucesso)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Sucesso", Detail = "Login realizado com sucesso!" });
+                NavigationManager.NavigateTo("/");
+            
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Falha no Login" });
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Erro", Detail = $"Ocorreu um erro: {ex.Message}" });
+        }
+        finally
+        {
+            _processing = false;
+            StateHasChanged();
+        }
+    }
+} 

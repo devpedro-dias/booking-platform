@@ -1,21 +1,27 @@
 ﻿@inherits LayoutComponentBase
 
 <RadzenComponents />
+<RadzenNotification />
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<CascadingAuthenticationState>
+    <RadzenComponents />
+    <RadzenNotification />
+
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <main>
+            <article class="content p-4">
+                @Body
+            </article>
+        </main>
     </div>
 
-    <main>
-        <article class="content p-4">
-            @Body
-        </article>
-    </main>
-</div>
-
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+    <div id="blazor-error-ui" data-nosnippet>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+</CascadingAuthenticationState>

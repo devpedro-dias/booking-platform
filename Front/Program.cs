@@ -1,6 +1,7 @@
 using Radzen;
 using System.Net;
 using Front.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
+
+builder.Services.AddScoped<AuthenticationStateProvider, AuthService>();
+builder.Services.AddScoped(sp => (AuthService)sp.GetRequiredService<AuthenticationStateProvider>());
 builder.Services.AddScoped<CookieContainer>();
 builder.Services.AddScoped<AuthService>();
 
@@ -24,17 +28,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddHttpClient("API", (serviceProvider, client) => {
+builder.Services.AddHttpClient("API", (serviceProvider, client) =>
+{
     client.BaseAddress = new Uri(builder.Configuration["APIServer:Url"]!);
     client.DefaultRequestHeaders.Add("Accept", "application/json");
-})
-.ConfigurePrimaryHttpMessageHandler((serviceProvider) => {
-    var cookieContainer = serviceProvider.GetRequiredService<CookieContainer>();
-    return new HttpClientHandler
-    {
-        UseCookies = true,
-        CookieContainer = cookieContainer
-    };
 });
 
 var app = builder.Build();
