@@ -1,16 +1,15 @@
 using Radzen;
 using System.Net;
-using Web.Components;
+using Front.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveServerComponents();
 
 builder.Services.AddRadzenComponents();
-
 builder.Services.AddScoped<CookieContainer>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -40,11 +39,7 @@ builder.Services.AddHttpClient("API", (serviceProvider, client) => {
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
@@ -61,8 +56,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Web.Client._Imports).Assembly);
+    .AddInteractiveServerRenderMode();
 
 app.Run();

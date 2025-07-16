@@ -1,6 +1,8 @@
 ﻿namespace booking_platform.DTO
 {
-    public record AuthDTO(string email, string password)
+    public class AuthDTO()
     {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
