@@ -1,0 +1,12 @@
+﻿@page "/identity/account/logout"
+@using Domain.Entities
+@inject SignInManager<ApplicationUser> _signInManager
+@inject NavigationManager _navigationManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await _signInManager.SignOutAsync();
+        _navigationManager.NavigateTo("/account/login", true);
+    }
+}

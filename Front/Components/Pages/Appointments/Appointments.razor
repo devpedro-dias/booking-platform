@@ -1,0 +1,89 @@
+﻿@page "/appointments"
+@attribute [Authorize]
+<RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" Class="rz-mb-4">
+    <RadzenText TextStyle="TextStyle.H6">
+        Appointments
+    </RadzenText>
+    <RadzenButton Icon="add_circle_outline" Text="Add Appointment" Click="AddAppointment" />
+</RadzenRow>
+
+<AppointmentsTable Appointments="@appointments"
+                   AllowFiltering="true"
+                   AllowPaging="true"
+                   PageSize="5"
+                   AllowSorting="true"
+                   ShowActions="true"
+                   ShowRowNumber="true"
+                   OnEditAppointment="EditAppointment"
+                   OnDeleteAppointment="DeleteAppointment" />
+
+@code {
+    List<AppointmentResponseDTO> appointments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Exemplo de dados mockados:
+        appointments = new List<AppointmentResponseDTO>
+        {
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer123",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddHours(1),
+                EndDateTime = DateTime.Now.AddHours(2),
+                TotalPriceInCents = 15000,
+                Status = "Confirmed",
+                CreatedAt = DateTime.Now.AddDays(-5)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer456",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(1).AddHours(10),
+                EndDateTime = DateTime.Now.AddDays(1).AddHours(11),
+                TotalPriceInCents = 8000,
+                Status = "Pending",
+                CreatedAt = DateTime.Now.AddDays(-2)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer789",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(-2).AddHours(14),
+                EndDateTime = DateTime.Now.AddDays(-2).AddHours(15),
+                TotalPriceInCents = 25000,
+                Status = "Completed",
+                CreatedAt = DateTime.Now.AddDays(-10)
+            }
+        };
+        // @inject YourAppointmentService AppointmentService
+        // appointments = (await AppointmentService.GetAppointmentsAsync()).ToList();
+    }
+
+    async Task AddAppointment()
+    {
+        Console.WriteLine("Add Appointment clicked!");
+        // await DialogService.OpenAsync<AddAppointmentPage>("Add New Appointment", new DialogOptions() { Width = "500px" });
+    }
+
+    async Task EditAppointment(string appointmentId)
+    {
+        Console.WriteLine($"Edit Appointment with ID: {appointmentId}");
+        // Lógica para editar
+    }
+
+    async Task DeleteAppointment(string appointmentId)
+    {
+        Console.WriteLine($"Delete Appointment with ID: {appointmentId}");
+        // Lógica para deletar
+    }
+}

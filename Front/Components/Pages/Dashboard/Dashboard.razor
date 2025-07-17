@@ -1,0 +1,234 @@
+﻿@page "/"
+@using Front.Components.Pages.Appointments
+@rendermode InteractiveServer
+@attribute [Authorize]
+<RadzenText TextStyle="TextStyle.H6">
+    Dashboard
+</RadzenText>
+<RadzenRow JustifyContent="JustifyContent.Center">
+    <RadzenColumn Size="12" SizeMD="4">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="event" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Appointments" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="1.234" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <RadzenColumn Size="12" SizeMD="4">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="business" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Businesses" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="567" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <RadzenColumn Size="12" SizeMD="4">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCard Class="rz-background-color-info-lighter rz-p-2" Style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" Variant="Variant.Flat">
+                    <RadzenIcon Icon="people" Style="font-size: 26px; color: var(--rz-primary);" />
+                </RadzenCard>
+                <RadzenStack Orientation="Orientation.Vertical" Class="rz-ml-3">
+                    <RadzenText Text="Service Providers" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0" />
+                    <RadzenText Text="89" TextStyle="TextStyle.Body1" Class="rz-mt-0" />
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center" class="mt-3">
+    <RadzenColumn Size="12" SizeMD="8">
+        <ChartDashboard />
+    </RadzenColumn>
+
+    <RadzenColumn Size="6" SizeMD="4">
+        <RadzenCard Variant="Variant.Outlined" Style="width: 100%;">
+            <RadzenStack class="rz-p-0" AlignItems="AlignItems.Start">
+                <RadzenText TextStyle="TextStyle.H6">
+                    Appointment Status Overview
+                </RadzenText>
+
+                <RadzenStack Style="width: 100%; max-width: 600px;">
+                    <RadzenChart>
+                        <RadzenDonutSeries Data="@appointmentStatusData" CategoryProperty="Status" ValueProperty="Count" TotalAngle="360" StartAngle="0">
+                            <TitleTemplate>
+                                <div class="rz-donut-content d-flex gap-1">
+                                    <div>Total:</div>
+                                    <div>@appointments?.Count().ToString()</div>
+                                </div>
+                            </TitleTemplate>
+                            <ChildContent>
+                                <RadzenSeriesDataLabels Visible="@showDataLabelsDonut" />
+                            </ChildContent>
+                        </RadzenDonutSeries>
+                    </RadzenChart>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center" class="mt-3">
+    <RadzenColumn Size="12">
+        <RadzenCard Variant="Variant.Outlined">
+            <RadzenText TextStyle="TextStyle.H6" Class="rz-mb-3">
+                Upcoming Appointments
+            </RadzenText>
+            <AppointmentsTable Appointments="@appointments"
+                               AllowFiltering="false"
+                               AllowPaging="true"
+                               PageSize="3"
+                               AllowSorting="false"
+                               ShowActions="false"
+                               ShowRowNumber="false" />
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+
+@code {
+    List<AppointmentResponseDTO> appointments;
+    bool showDataLabelsDonut = false; // Renomeado para evitar conflito se ChartDashboard tiver um
+
+    // Classe para os dados do Donut Chart de status
+    class AppointmentStatusDataItem
+    {
+        public string Status { get; set; }
+        public int Count { get; set; }
+    }
+
+    List<AppointmentStatusDataItem> appointmentStatusData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulação de dados para o dashboard
+        appointments = new List<AppointmentResponseDTO>
+        {
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer123",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddHours(1),
+                EndDateTime = DateTime.Now.AddHours(2),
+                TotalPriceInCents = 15000,
+                Status = "Confirmed",
+                CreatedAt = DateTime.Now.AddDays(-5)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer456",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(1).AddHours(10),
+                EndDateTime = DateTime.Now.AddDays(1).AddHours(11),
+                TotalPriceInCents = 8000,
+                Status = "Pending",
+                CreatedAt = DateTime.Now.AddDays(-2)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer789",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(-2).AddHours(14),
+                EndDateTime = DateTime.Now.AddDays(-2).AddHours(15),
+                TotalPriceInCents = 25000,
+                Status = "Completed",
+                CreatedAt = DateTime.Now.AddDays(-10)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer_new",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(-1).AddHours(9),
+                EndDateTime = DateTime.Now.AddDays(-1).AddHours(9).AddMinutes(45),
+                TotalPriceInCents = 3000,
+                Status = "Confirmed",
+                CreatedAt = DateTime.Now.AddDays(-1)
+            },
+            new AppointmentResponseDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                BusinessId = Guid.NewGuid().ToString(),
+                CustomerId = "customer_cancel",
+                ServiceId = Guid.NewGuid().ToString(),
+                ServiceProviderId = Guid.NewGuid().ToString(),
+                StartDateTime = DateTime.Now.AddDays(2).AddHours(11),
+                EndDateTime = DateTime.Now.AddDays(2).AddHours(12),
+                TotalPriceInCents = 10000,
+                Status = "Cancelled",
+                CreatedAt = DateTime.Now.AddDays(-3)
+            }
+        };
+
+        // Calcula os dados do status dos appointments
+        CalculateAppointmentStatusData();
+
+        // Você provavelmente buscará apenas os "próximos" ou "recentes" appointments para o dashboard
+        // Exemplo: appointments = (await AppointmentService.GetRecentAppointmentsAsync(5)).ToList();
+        // CalculateAppointmentStatusData(); // Chame após carregar dados reais
+    }
+
+    private void CalculateAppointmentStatusData()
+    {
+        if (appointments != null)
+        {
+            appointmentStatusData = appointments
+                .GroupBy(a => a.Status)
+                .Select(g => new AppointmentStatusDataItem
+                {
+                    Status = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+        }
+        else
+        {
+            appointmentStatusData = new List<AppointmentStatusDataItem>();
+        }
+    }
+
+    // --- Dados e lógica do seu ChartDashboard original (se ainda estiver em Dashboard.razor) ---
+    // Removido para simplificar, já que ChartDashboard é um componente separado.
+    // Certifique-se de que ChartDashboard tenha sua própria lógica e dados.
+
+    class AppointmentData // Mantido para o exemplo original do ChartDashboard se ele estiver inline
+    {
+        public string Month { get; set; }
+        public int Count { get; set; }
+    }
+
+    List<AppointmentData> appointmentsData = new List<AppointmentData>
+    {
+        new AppointmentData { Month = "Jan", Count = 150 },
+        new AppointmentData { Month = "Fev", Count = 200 },
+        new AppointmentData { Month = "Mar", Count = 180 },
+        new AppointmentData { Month = "Abr", Count = 250 },
+        new AppointmentData { Month = "Mai", Count = 220 },
+        new AppointmentData { Month = "Jun", Count = 300 },
+        new AppointmentData { Month = "Jul", Count = 280 }
+    };
+}
